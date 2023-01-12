@@ -10,13 +10,17 @@ public class Conexion {
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASS = "";
     
+    private static BasicDataSource dataSouerce;
+    
     public static DataSource getDataSource(){
-        BasicDataSource ds = new BasicDataSource();
-        ds.setUrl(JDBC_URL);
-        ds.setUsername(JDBC_USER);
-        ds.setPassword(JDBC_PASS);
-        ds.setInitialSize(50);
-        return ds;
+        if(dataSouerce == null){
+            dataSouerce = new BasicDataSource();
+            dataSouerce.setUrl(JDBC_URL);
+            dataSouerce.setUsername(JDBC_USER);
+            dataSouerce.setPassword(JDBC_PASS);
+            dataSouerce.setInitialSize(50);
+        }
+        return dataSouerce;
     }
     
     public static Connection getConnection() throws SQLException{
