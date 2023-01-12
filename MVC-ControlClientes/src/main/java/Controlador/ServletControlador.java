@@ -19,6 +19,9 @@ public class ServletControlador extends HttpServlet {
                 case "editar":
                     this.editarCliente(request, response);
                     break;
+                case "eliminar":
+                    this.eliminar(request, response);
+                    break;
                 default:
                     this.accionDefault(request, response);
             }
@@ -39,13 +42,24 @@ public class ServletControlador extends HttpServlet {
                 case "modificar":
                     this.modificar(req, resp);
                     break;
-//                default:
-//                    this.accionDefault(req, resp);
-//                    break;
+                default:
+                    this.accionDefault(req, resp);
+                    break;
             }
         } else {
             this.accionDefault(req, resp);
         }
+    }
+
+    private void eliminar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int idCliente = Integer.parseInt(req.getParameter("idCliente"));
+
+        Cliente cliente = new Cliente(idCliente);
+
+        int registrosModificados = new ClienteDAO().eliminar(cliente);
+        System.out.println("registrosModificados = " + registrosModificados);
+
+        this.accionDefault(req, resp);
     }
 
     private void modificar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
