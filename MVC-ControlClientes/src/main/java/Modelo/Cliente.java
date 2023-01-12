@@ -12,6 +12,10 @@ public class Cliente {
     public Cliente() {
     }
     
+    public Cliente(int idCliente){
+        this.idCliente = idCliente;
+    }
+    
     public Cliente(String nombre, String apellido, String email, String telefono, double saldo){
         this.nombre = nombre;
         this.apellido = apellido;
@@ -38,7 +42,7 @@ public class Cliente {
     }
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {

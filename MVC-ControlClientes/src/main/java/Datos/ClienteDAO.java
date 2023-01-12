@@ -57,12 +57,13 @@ public class ClienteDAO implements IAccesoDatos<Cliente>{
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        Cliente retornar = null;
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
             stmt.setInt(1, cliente.getIdCliente());
             rs = stmt.executeQuery();
-            rs.absolute(1);//nos posicionamos en el primer registro devuelto
+            rs.next();//nos posicionamos en el primer registro devuelto
 
             String nombre = rs.getString("nombre");
             String apellido = rs.getString("apellido");
@@ -70,11 +71,7 @@ public class ClienteDAO implements IAccesoDatos<Cliente>{
             String telefono = rs.getString("telefono");
             double saldo = rs.getDouble("saldo");
 
-            cliente.setNombre(nombre);
-            cliente.setApellido(apellido);
-            cliente.setEmail(email);
-            cliente.setTelefono(telefono);
-            cliente.setSaldo(saldo);
+            retornar = new Cliente(nombre, apellido, email, telefono, saldo);
 
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -83,7 +80,8 @@ public class ClienteDAO implements IAccesoDatos<Cliente>{
             Conexion.close(stmt);
             Conexion.close(conn);
         }
-        return cliente;
+        return retornar;
+
     }
 
     @Override
@@ -126,6 +124,7 @@ public class ClienteDAO implements IAccesoDatos<Cliente>{
             stmt.setInt(6, cliente.getIdCliente());
 
             rows = stmt.executeUpdate();
+            System.out.println("rows = " + rows);
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
